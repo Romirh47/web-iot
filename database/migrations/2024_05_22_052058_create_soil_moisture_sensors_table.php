@@ -1,9 +1,10 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDevicesTable extends Migration
+class CreateSoilMoistureSensorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +13,13 @@ class CreateDevicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('devices', function (Blueprint $table) {
+        Schema::create('soil_moisture_sensors', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // Nama perangkat
+            $table->unsignedBigInteger('sensor_id');
+            $table->float('value'); // Nilai kelembaban tanah
             $table->timestamps();
+
+            $table->foreign('sensor_id')->references('id')->on('sensors')->onDelete('cascade');
         });
     }
 
@@ -26,6 +30,6 @@ class CreateDevicesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('devices');
+        Schema::dropIfExists('soil_moisture_sensors');
     }
 }
